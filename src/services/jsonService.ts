@@ -24,3 +24,18 @@ export function downloadJson(
   document.body.removeChild(link);
   URL.revokeObjectURL(url);
 }
+
+export const sortJson = (value: unknown): unknown => {
+  if (Array.isArray(value)) {
+    return value.map(sortJson);
+  } else if (value !== null && typeof value === "object") {
+    const sortedObj: Record<string, unknown> = {};
+    Object.keys(value as Record<string, unknown>)
+      .sort()
+      .forEach((key) => {
+        sortedObj[key] = sortJson((value as Record<string, unknown>)[key]);
+      });
+    return sortedObj;
+  }
+  return value;
+};
