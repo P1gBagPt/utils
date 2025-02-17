@@ -98,7 +98,7 @@ export default function JsonFormatterPage() {
   };
 
   return (
-    <Card className="p-4 max-w-7xl mx-auto mt-10">
+    <Card className="p-4 max-w-7xl mx-auto mt-10 dark:text-white">
       <Toaster position="top-right" />
       <CardHeader>
         <CardTitle className="text-2xl">JSON Formatter</CardTitle>
@@ -110,7 +110,7 @@ export default function JsonFormatterPage() {
               value={jsonInput}
               onChange={handleInputChange}
               placeholder="Paste your JSON here..."
-              className="flex-1 w-full"
+              className="flex-1 w-full dark:bg-zinc-600 dark:text-white"
             />
           </div>
 
@@ -122,25 +122,25 @@ export default function JsonFormatterPage() {
                 onCheckedChange={(checked) => setAutoParseEnabled(checked)}
               />
             </div>
-            <Button onClick={handleParse} className="w-32">
+            <Button onClick={handleParse} className="w-32 dark:bg-gray-600 dark:text-white">
               Parse
             </Button>
-            <Button onClick={handleFormat} className="mt-4 w-32">
+            <Button onClick={handleFormat} className="mt-4 w-32 dark:bg-gray-600 dark:text-white">
               Format
             </Button>
-            <Button onClick={handleDownload} className="mt-4 w-32">
+            <Button onClick={handleDownload} className="mt-4 w-32 dark:bg-gray-600 dark:text-white">
               Download
             </Button>
           </div>
 
-          <div className="flex-1 overflow-auto border p-2 rounded relative">
+          <div className="flex-1 overflow-auto border p-2 rounded relative dark:bg-zinc-600 dark:border-gray-600">
             {parsedJson ? (
               <>
-                <div className="sticky top-0 left-0 right-0 bg-white flex w-full flex-wrap md:flex-nowrap justify-center md:justify-end gap-2 p-2 border-b z-10 shadow-md overflow-x-auto">
+                <div className="sticky top-0 left-0 right-0 bg-white dark:#212020 flex w-full flex-wrap md:flex-nowrap justify-center md:justify-end gap-2 p-2 border-b z-10 shadow-md overflow-x-auto dark:text-white">
                   <Button
                     variant="ghost"
                     onClick={handleCollapseAll}
-                    className="whitespace-nowrap"
+                    className="whitespace-nowrap dark:text-white"
                   >
                     <ChevronUp className="h-4 w-4" />
                     <span className="hidden md:inline ml-1">Collapse All</span>
@@ -148,7 +148,7 @@ export default function JsonFormatterPage() {
                   <Button
                     variant="ghost"
                     onClick={handleExpandAll}
-                    className="whitespace-nowrap"
+                    className="whitespace-nowrap dark:text-white"
                   >
                     <ChevronDown className="h-4 w-4" />
                     <span className="hidden md:inline ml-1">Expand All</span>
@@ -156,7 +156,7 @@ export default function JsonFormatterPage() {
                   <Button
                     variant="ghost"
                     onClick={handleOrganize}
-                    className="whitespace-nowrap"
+                    className="whitespace-nowrap dark:text-white"
                   >
                     <RefreshCw className="h-4 w-4" />
                     <span className="hidden md:inline ml-1">Organize</span>
@@ -164,14 +164,14 @@ export default function JsonFormatterPage() {
                   <Button
                     variant="ghost"
                     onClick={handleCopy}
-                    className="whitespace-nowrap"
+                    className="whitespace-nowrap dark:text-white"
                   >
                     <Copy className="h-4 w-4" />
                     <span className="hidden md:inline ml-1">Copy</span>
                   </Button>
                 </div>
 
-                <div className="mt-6">
+                <div className="mt-6 dark:#212020">
                   <ReactJson
                     key={jsonKey}
                     src={parsedJson}
@@ -180,11 +180,12 @@ export default function JsonFormatterPage() {
                     enableClipboard={false}
                     displayDataTypes={false}
                     indentWidth={2}
+                    theme="monokai"
                   />
                 </div>
               </>
             ) : (
-              <p className="text-gray-500">
+              <p className="text-gray-500 dark:text-gray-300">
                 Formatted JSON will appear here...
               </p>
             )}
