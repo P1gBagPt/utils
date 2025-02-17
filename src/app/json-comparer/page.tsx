@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Switch } from "@/components/ui/switch"; // Import Switch
+import { Switch } from "@/components/ui/switch";
 import toast, { Toaster } from "react-hot-toast";
 import {
   parseJson,
@@ -11,12 +11,12 @@ import {
   downloadJson,
   sortJson,
 } from "@/services/jsonService";
-// import ReactJson from "react-json-view";
 import { Copy, ChevronDown, ChevronUp, RefreshCw } from "lucide-react";
-import MonacoEditor from "@monaco-editor/react"; // Import Monaco Editor
+import MonacoEditor from "@monaco-editor/react";
 
-import dynamic from 'next/dynamic'
-const ReactJson = dynamic(() => import('react-json-view'), { ssr: false })
+import dynamic from "next/dynamic";
+import NavbarComponent from "@/components/navbar/page";
+const ReactJson = dynamic(() => import("react-json-view"), { ssr: false });
 
 export default function JsonFormatterPage() {
   const [jsonInput, setJsonInput] = useState("");
@@ -111,123 +111,127 @@ export default function JsonFormatterPage() {
   };
 
   return (
-    <Card className="p-4 max-w-7xl mx-auto mt-10 dark:text-white">
-      <Toaster position="top-right" />
-      <CardHeader>
-        <CardTitle className="text-2xl">JSON Formatter</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="flex gap-4 h-[500px]">
-          <div className="flex-1 flex flex-col">
-            {/* Replace Textarea with Monaco Editor */}
-            <MonacoEditor
-              value={jsonInput}
-              onChange={handleInputChange}
-              language="json"
-              theme="vs-dark" // You can change this to "vs-light" for light mode
-              options={{
-                selectOnLineNumbers: true,
-                automaticLayout: true,
-                wordWrap: "on",
-                minimap: { enabled: false },
-              }}
-              height="100%"
-            />
-          </div>
-
-          <div className="flex flex-col justify-center items-center">
-            <div className="flex items-center gap-4 justify-between mb-2">
-              <span className="text-sm font-medium">Auto-Parse</span>
-              <Switch
-                checked={autoParseEnabled}
-                onCheckedChange={(checked) => setAutoParseEnabled(checked)}
+    <>
+      <NavbarComponent />
+      <Card className="p-4 max-w-7xl mx-auto mt-10 dark:text-white">
+        <Toaster position="top-right" />
+        <CardHeader>
+          <CardTitle className="text-2xl">JSON Formatter</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex gap-4 h-[500px]">
+            <div className="flex-1 flex flex-col">
+              <MonacoEditor
+                value={jsonInput}
+                onChange={handleInputChange}
+                language="json"
+                theme="vs-dark"
+                options={{
+                  selectOnLineNumbers: true,
+                  automaticLayout: true,
+                  wordWrap: "on",
+                  minimap: { enabled: false },
+                }}
+                height="100%"
               />
             </div>
-            <Button
-              onClick={handleParse}
-              className="w-32 dark:bg-gray-600 dark:text-white"
-            >
-              Parse
-            </Button>
-            <Button
-              onClick={handleFormat}
-              className="mt-4 w-32 dark:bg-gray-600 dark:text-white"
-            >
-              Format
-            </Button>
-            <Button
-              onClick={handleCompress}
-              className="mt-4 w-32 dark:bg-gray-600 dark:text-white"
-            >
-              Compress
-            </Button>
-            <Button
-              onClick={handleDownload}
-              className="mt-4 w-32 dark:bg-gray-600 dark:text-white"
-            >
-              Download
-            </Button>
-          </div>
 
-          <div className="flex-1 overflow-auto border p-2 rounded relative dark:bg-grey-custom dark:border-gray-600">
-            {parsedJson ? (
-              <>
-                <div className="sticky top-0 left-0 right-0 bg-grey-custom flex w-full flex-wrap md:flex-nowrap justify-center md:justify-end gap-2 p-2 border-b z-10 shadow-md overflow-x-auto dark:text-white">
-                  <Button
-                    variant="ghost"
-                    onClick={handleCollapseAll}
-                    className="whitespace-nowrap dark:text-white"
-                  >
-                    <ChevronUp className="h-4 w-4" />
-                    <span className="hidden md:inline ml-1">Collapse All</span>
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    onClick={handleExpandAll}
-                    className="whitespace-nowrap dark:text-white"
-                  >
-                    <ChevronDown className="h-4 w-4" />
-                    <span className="hidden md:inline ml-1">Expand All</span>
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    onClick={handleOrganize}
-                    className="whitespace-nowrap dark:text-white"
-                  >
-                    <RefreshCw className="h-4 w-4" />
-                    <span className="hidden md:inline ml-1">Organize</span>
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    onClick={handleCopy}
-                    className="whitespace-nowrap dark:text-white"
-                  >
-                    <Copy className="h-4 w-4" />
-                    <span className="hidden md:inline ml-1">Copy</span>
-                  </Button>
-                </div>
+            <div className="flex flex-col justify-center items-center">
+              <div className="flex items-center gap-4 justify-between mb-2">
+                <span className="text-sm font-medium">Auto-Parse</span>
+                <Switch
+                  checked={autoParseEnabled}
+                  onCheckedChange={(checked) => setAutoParseEnabled(checked)}
+                />
+              </div>
+              <Button
+                onClick={handleParse}
+                className="w-32 dark:bg-gray-600 dark:text-white"
+              >
+                Parse
+              </Button>
+              <Button
+                onClick={handleFormat}
+                className="mt-4 w-32 dark:bg-gray-600 dark:text-white"
+              >
+                Format
+              </Button>
+              <Button
+                onClick={handleCompress}
+                className="mt-4 w-32 dark:bg-gray-600 dark:text-white"
+              >
+                Compress
+              </Button>
+              <Button
+                onClick={handleDownload}
+                className="mt-4 w-32 dark:bg-gray-600 dark:text-white"
+              >
+                Download
+              </Button>
+            </div>
 
-                <div className="mt-6 dark:bg-grey-custom">
-                  <ReactJson
-                    key={jsonKey}
-                    src={parsedJson}
-                    collapsed={collapseState}
-                    name={false}
-                    enableClipboard={false}
-                    displayDataTypes={false}
-                    indentWidth={2}
-                    theme="colors"
-                  />
-                </div>
-              </>
-            ) : (
-              <p className="text-gray-500 dark:text-gray-300">
-                Formatted JSON will appear here...
-              </p>
-            )}
+            <div className="flex-1 overflow-auto border p-2 rounded relative dark:bg-grey-custom dark:border-gray-600">
+              {parsedJson ? (
+                <>
+                  <div className="sticky top-0 left-0 right-0 bg-grey-custom flex w-full flex-wrap md:flex-nowrap justify-center md:justify-end gap-2 p-2 border-b z-10 shadow-md overflow-x-auto dark:text-white">
+                    <Button
+                      variant="ghost"
+                      onClick={handleCollapseAll}
+                      className="whitespace-nowrap dark:text-white"
+                    >
+                      <ChevronUp className="h-4 w-4" />
+                      <span className="hidden md:inline ml-1">
+                        Collapse All
+                      </span>
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      onClick={handleExpandAll}
+                      className="whitespace-nowrap dark:text-white"
+                    >
+                      <ChevronDown className="h-4 w-4" />
+                      <span className="hidden md:inline ml-1">Expand All</span>
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      onClick={handleOrganize}
+                      className="whitespace-nowrap dark:text-white"
+                    >
+                      <RefreshCw className="h-4 w-4" />
+                      <span className="hidden md:inline ml-1">Organize</span>
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      onClick={handleCopy}
+                      className="whitespace-nowrap dark:text-white"
+                    >
+                      <Copy className="h-4 w-4" />
+                      <span className="hidden md:inline ml-1">Copy</span>
+                    </Button>
+                  </div>
+
+                  <div className="mt-6 dark:bg-grey-custom">
+                    <ReactJson
+                      key={jsonKey}
+                      src={parsedJson}
+                      collapsed={collapseState}
+                      name={false}
+                      enableClipboard={false}
+                      displayDataTypes={false}
+                      indentWidth={2}
+                      theme="colors"
+                    />
+                  </div>
+                </>
+              ) : (
+                <p className="text-gray-500 dark:text-gray-300">
+                  Formatted JSON will appear here...
+                </p>
+              )}
+            </div>
           </div>
-        </div>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </>
   );
 }
