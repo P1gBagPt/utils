@@ -14,12 +14,6 @@ import {
 import ReactJson from "react-json-view";
 import { Copy, ChevronDown, ChevronUp, RefreshCw } from "lucide-react";
 
-import dynamic from "next/dynamic";
-const MonacoEditor = dynamic(
-  () => import("@monaco-editor/react"),
-  { ssr: false }
-);
-
 export default function JsonFormatterPage() {
   const [jsonInput, setJsonInput] = useState("");
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -122,7 +116,7 @@ export default function JsonFormatterPage() {
         <div className="flex gap-4 h-[500px]">
           <div className="flex-1 flex flex-col">
             {/* Replace Textarea with Monaco Editor */}
-            <MonacoEditor
+            {/* <MonacoEditor
               value={jsonInput}
               onChange={handleInputChange}
               language="json"
@@ -134,7 +128,7 @@ export default function JsonFormatterPage() {
                 minimap: { enabled: false },
               }}
               height="100%"
-            />
+            /> */}
           </div>
 
           <div className="flex flex-col justify-center items-center">
