@@ -34,18 +34,18 @@ export default function JsonFormatterPage() {
     }
   };
 
-  const handleInputChange = (value: string | undefined) => {
-    setJsonInput(value ?? "");
-    if (autoParseEnabled) {
-      try {
-        const parsed = parseJson(value ?? "");
-        setParsedJson(parsed);
-        setJsonKey((prev) => prev + 1);
-      } catch {
-        setParsedJson(null);
-      }
-    }
-  };
+  // const handleInputChange = (value: string | undefined) => {
+  //   setJsonInput(value ?? "");
+  //   if (autoParseEnabled) {
+  //     try {
+  //       const parsed = parseJson(value ?? "");
+  //       setParsedJson(parsed);
+  //       setJsonKey((prev) => prev + 1);
+  //     } catch {
+  //       setParsedJson(null);
+  //     }
+  //   }
+  // };
 
   const handleFormat = () => {
     if (parsedJson !== null) {
