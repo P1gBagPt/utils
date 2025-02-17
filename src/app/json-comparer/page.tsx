@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch"; // Import Switch
 import toast, { Toaster } from "react-hot-toast";
 import {
@@ -14,6 +13,7 @@ import {
 } from "@/services/jsonService";
 import ReactJson from "react-json-view";
 import { Copy, ChevronDown, ChevronUp, RefreshCw } from "lucide-react";
+import MonacoEditor from "@monaco-editor/react"; // Import Monaco Editor
 
 export default function JsonFormatterPage() {
   const [jsonInput, setJsonInput] = useState("");
@@ -35,11 +35,11 @@ export default function JsonFormatterPage() {
     }
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setJsonInput(e.target.value);
+  const handleInputChange = (value: string | undefined) => {
+    setJsonInput(value ?? "");
     if (autoParseEnabled) {
       try {
-        const parsed = parseJson(e.target.value);
+        const parsed = parseJson(value ?? "");
         setParsedJson(parsed);
         setJsonKey((prev) => prev + 1);
       } catch {
@@ -55,6 +55,16 @@ export default function JsonFormatterPage() {
       toast.success("JSON beautified successfully!");
     } else {
       toast.error("No valid JSON to format. Please parse first.");
+    }
+  };
+
+  const handleCompress = () => {
+    if (parsedJson !== null) {
+      const compressed = JSON.stringify(parsedJson);
+      setJsonInput(compressed);
+      toast.success("JSON compressed successfully!");
+    } else {
+      toast.error("No valid JSON to compress. Please parse first.");
     }
   };
 
@@ -106,11 +116,19 @@ export default function JsonFormatterPage() {
       <CardContent>
         <div className="flex gap-4 h-[500px]">
           <div className="flex-1 flex flex-col">
-            <Textarea
+            {/* Replace Textarea with Monaco Editor */}
+            <MonacoEditor
               value={jsonInput}
               onChange={handleInputChange}
-              placeholder="Paste your JSON here..."
-              className="flex-1 w-full dark:bg-zinc-600 dark:text-white"
+              language="json"
+              theme="vs-dark" // You can change this to "vs-light" for light mode
+              options={{
+                selectOnLineNumbers: true,
+                automaticLayout: true,
+                wordWrap: "on",
+                minimap: { enabled: false },
+              }}
+              height="100%"
             />
           </div>
 
@@ -122,21 +140,36 @@ export default function JsonFormatterPage() {
                 onCheckedChange={(checked) => setAutoParseEnabled(checked)}
               />
             </div>
-            <Button onClick={handleParse} className="w-32 dark:bg-gray-600 dark:text-white">
+            <Button
+              onClick={handleParse}
+              className="w-32 dark:bg-gray-600 dark:text-white"
+            >
               Parse
             </Button>
-            <Button onClick={handleFormat} className="mt-4 w-32 dark:bg-gray-600 dark:text-white">
+            <Button
+              onClick={handleFormat}
+              className="mt-4 w-32 dark:bg-gray-600 dark:text-white"
+            >
               Format
             </Button>
-            <Button onClick={handleDownload} className="mt-4 w-32 dark:bg-gray-600 dark:text-white">
+            <Button
+              onClick={handleCompress}
+              className="mt-4 w-32 dark:bg-gray-600 dark:text-white"
+            >
+              Compress
+            </Button>
+            <Button
+              onClick={handleDownload}
+              className="mt-4 w-32 dark:bg-gray-600 dark:text-white"
+            >
               Download
             </Button>
           </div>
 
-          <div className="flex-1 overflow-auto border p-2 rounded relative dark:bg-zinc-600 dark:border-gray-600">
+          <div className="flex-1 overflow-auto border p-2 rounded relative dark:bg-grey-custom dark:border-gray-600">
             {parsedJson ? (
               <>
-                <div className="sticky top-0 left-0 right-0 bg-white dark:#212020 flex w-full flex-wrap md:flex-nowrap justify-center md:justify-end gap-2 p-2 border-b z-10 shadow-md overflow-x-auto dark:text-white">
+                <div className="sticky top-0 left-0 right-0 bg-grey-custom flex w-full flex-wrap md:flex-nowrap justify-center md:justify-end gap-2 p-2 border-b z-10 shadow-md overflow-x-auto dark:text-white">
                   <Button
                     variant="ghost"
                     onClick={handleCollapseAll}
@@ -171,7 +204,7 @@ export default function JsonFormatterPage() {
                   </Button>
                 </div>
 
-                <div className="mt-6 dark:#212020">
+                <div className="mt-6 dark:bg-grey-custom">
                   <ReactJson
                     key={jsonKey}
                     src={parsedJson}
@@ -180,7 +213,7 @@ export default function JsonFormatterPage() {
                     enableClipboard={false}
                     displayDataTypes={false}
                     indentWidth={2}
-                    theme="monokai"
+                    theme="colors"
                   />
                 </div>
               </>
