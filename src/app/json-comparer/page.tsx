@@ -11,8 +11,12 @@ import {
   downloadJson,
   sortJson,
 } from "@/services/jsonService";
-import ReactJson from "react-json-view";
+// import ReactJson from "react-json-view";
 import { Copy, ChevronDown, ChevronUp, RefreshCw } from "lucide-react";
+import MonacoEditor from "@monaco-editor/react"; // Import Monaco Editor
+
+import dynamic from 'next/dynamic'
+const ReactJson = dynamic(() => import('react-json-view'), { ssr: false })
 
 export default function JsonFormatterPage() {
   const [jsonInput, setJsonInput] = useState("");
@@ -34,18 +38,18 @@ export default function JsonFormatterPage() {
     }
   };
 
-  // const handleInputChange = (value: string | undefined) => {
-  //   setJsonInput(value ?? "");
-  //   if (autoParseEnabled) {
-  //     try {
-  //       const parsed = parseJson(value ?? "");
-  //       setParsedJson(parsed);
-  //       setJsonKey((prev) => prev + 1);
-  //     } catch {
-  //       setParsedJson(null);
-  //     }
-  //   }
-  // };
+  const handleInputChange = (value: string | undefined) => {
+    setJsonInput(value ?? "");
+    if (autoParseEnabled) {
+      try {
+        const parsed = parseJson(value ?? "");
+        setParsedJson(parsed);
+        setJsonKey((prev) => prev + 1);
+      } catch {
+        setParsedJson(null);
+      }
+    }
+  };
 
   const handleFormat = () => {
     if (parsedJson !== null) {
@@ -116,7 +120,7 @@ export default function JsonFormatterPage() {
         <div className="flex gap-4 h-[500px]">
           <div className="flex-1 flex flex-col">
             {/* Replace Textarea with Monaco Editor */}
-            {/* <MonacoEditor
+            <MonacoEditor
               value={jsonInput}
               onChange={handleInputChange}
               language="json"
@@ -128,7 +132,7 @@ export default function JsonFormatterPage() {
                 minimap: { enabled: false },
               }}
               height="100%"
-            /> */}
+            />
           </div>
 
           <div className="flex flex-col justify-center items-center">
