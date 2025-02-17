@@ -13,7 +13,12 @@ import {
 } from "@/services/jsonService";
 import ReactJson from "react-json-view";
 import { Copy, ChevronDown, ChevronUp, RefreshCw } from "lucide-react";
-import MonacoEditor from "@monaco-editor/react"; // Import Monaco Editor
+
+import dynamic from "next/dynamic";
+const MonacoEditor = dynamic(
+  () => import("@monaco-editor/react"),
+  { ssr: false }
+);
 
 export default function JsonFormatterPage() {
   const [jsonInput, setJsonInput] = useState("");
