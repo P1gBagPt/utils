@@ -9,7 +9,7 @@ export default function Home() {
     { src: "/json.png", path: "/json-comparer" },
     { src: "/base64.png", path: "/image-base64" },
     { src: "/hex-picker.png", path: "/hex-picker" },
-    { src: "/path-to-image4.jpg", path: "/path4" },
+    { src: "/rich-text-box.png", path: "/richtext" },
     { src: "/path-to-image5.jpg", path: "/path5" },
     { src: "/path-to-image6.jpg", path: "/path6" },
     { src: "/path-to-image7.jpg", path: "/path7" },
