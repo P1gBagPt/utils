@@ -12,6 +12,7 @@ import {
 import SaturationValuePicker from "@/components/HexPicker/SaturationValuePicker";
 import HueSlider from "@/components/HexPicker/HueSlider";
 import AlphaSlider from "@/components/HexPicker/AlphaSlider";
+import NavbarComponent from "@/components/navbar/page";
 
 export default function HexPickerPage() {
   const [color, setColor] = useState({
@@ -69,64 +70,67 @@ export default function HexPickerPage() {
   const previewColor = `rgba(${r}, ${g}, ${b}, ${color.a})`;
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-8 bg-gray-50">
-      <Card className="w-full max-w-lg shadow-lg">
-        <CardHeader>
-          <CardTitle className="text-xl font-semibold">
-            Hex Color Picker
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-6">
-            <SaturationValuePicker
-              h={color.h}
-              s={color.s}
-              v={color.v}
-              onChange={handleSaturationChange}
-            />
-            <HueSlider h={color.h} onChange={handleHueChange} />
-            <AlphaSlider
-              color={{ h: color.h, s: color.s, v: color.v }}
-              a={color.a}
-              onChange={handleAlphaChange}
-            />
-            <div>
-              <Label
-                htmlFor="hex-input"
-                className="block text-sm font-medium text-gray-700"
-              >
-                Hex Color
-              </Label>
-              <div className="relative mt-1">
-                <Input
-                  id="hex-input"
-                  value={inputHex}
-                  onChange={handleInputChange}
-                  onBlur={handleInputBlur}
-                  placeholder="#ffffff"
-                  className="block w-full pr-20"
-                />
-                <button
-                  type="button"
-                  onClick={handleCopy}
-                  className="absolute inset-y-0 right-0 flex items-center pr-3 text-sm text-gray-500"
+    <>
+      <NavbarComponent />
+      <div className="min-h-screen flex items-center justify-center p-8 bg-grey-custom">
+        <Card className="w-full max-w-lg shadow-lg">
+          <CardHeader>
+            <CardTitle className="text-xl font-semibold">
+              Hex Color Picker
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-6">
+              <SaturationValuePicker
+                h={color.h}
+                s={color.s}
+                v={color.v}
+                onChange={handleSaturationChange}
+              />
+              <HueSlider h={color.h} onChange={handleHueChange} />
+              <AlphaSlider
+                color={{ h: color.h, s: color.s, v: color.v }}
+                a={color.a}
+                onChange={handleAlphaChange}
+              />
+              <div>
+                <Label
+                  htmlFor="hex-input"
+                  className="block text-sm font-medium text-gray-700"
                 >
-                  {copied ? "Copied!" : "Copy"}
-                </button>
+                  Hex Color
+                </Label>
+                <div className="relative mt-1">
+                  <Input
+                    id="hex-input"
+                    value={inputHex}
+                    onChange={handleInputChange}
+                    onBlur={handleInputBlur}
+                    placeholder="#ffffff"
+                    className="block w-full pr-20"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleCopy}
+                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-sm text-gray-500"
+                  >
+                    {copied ? "Copied!" : "Copy"}
+                  </button>
+                </div>
+              </div>
+              <div>
+                <Label className="block text-sm font-medium text-gray-700">
+                  Preview
+                </Label>
+                <div
+                  className="mt-1 h-16 w-full rounded-md border border-gray-300"
+                  style={{ backgroundColor: previewColor }}
+                />
               </div>
             </div>
-            <div>
-              <Label className="block text-sm font-medium text-gray-700">
-                Preview
-              </Label>
-              <div
-                className="mt-1 h-16 w-full rounded-md border border-gray-300"
-                style={{ backgroundColor: previewColor }}
-              />
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
+          </CardContent>
+        </Card>
+      </div>
+    </>
   );
 }
