@@ -1,7 +1,4 @@
-// services/jsonService.ts
-
 export function parseJson(json: string): JSON {
-  // This will throw if the JSON is invalid.
   return JSON.parse(json);
 }
 

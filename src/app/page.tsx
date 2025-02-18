@@ -8,7 +8,7 @@ export default function Home() {
   const imageArray = [
     { src: "/json.png", path: "/json-comparer" },
     { src: "/base64.png", path: "/image-base64" },
-    { src: "/path-to-image3.jpg", path: "/path3" },
+    { src: "/hex-picker.png", path: "/hex-picker" },
     { src: "/path-to-image4.jpg", path: "/path4" },
     { src: "/path-to-image5.jpg", path: "/path5" },
     { src: "/path-to-image6.jpg", path: "/path6" },

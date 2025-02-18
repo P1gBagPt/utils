@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import NavbarComponent from "@/components/navbar/page";
 
-export default function Home() {
+export default function ImageBase64Page() {
   const [image, setImage] = useState<string | null>(null);
   const [base64, setBase64] = useState<string>("");
 
